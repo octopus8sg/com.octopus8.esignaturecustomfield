@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/elsignature</path>
+    <page_callback>CRM_Esignaturecustomfield_Page_ElSignature</page_callback>
+    <title>ElSignature</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
