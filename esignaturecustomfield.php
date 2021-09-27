@@ -179,19 +179,119 @@ function esignaturecustomfield_civicrm_themes(&$themes)
 function esignaturecustomfield_civicrm_buildForm($formName, &$form)
 {
     CRM_Core_Error::debug_var('formName', $formName);
-//    CRM_Core_Error::debug_var('form', $form);
+
+    if ($formName == 'CRM_Custom_Form_Preview' || $formName == 'CRM_Custom_Form_CustomDataByType') {
+
+        CRM_Core_Error::debug_var('form', $form);
+//        echo 'IIII!';
+        CRM_Core_Region::instance('page-body')->add(array(
+            'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
+        ));
+        $groupTree = $form->get_template_vars('groupTree');
+        CRM_Core_Error::debug_var('groupTree', $groupTree);
+
+        foreach ($groupTree as $id => $group) {
+            foreach ($group['fields'] as $field) {
+                $required = $field['is_required'] ?? NULL;
+                //fix for CRM-1620
+                if ($field['data_type'] == 'File') {
+                    if (!empty($field['element_value']['data'])) {
+                        $required = 0;
+                    }
+                }
+
+                $fieldId = $field['id'];
+                $elementName = $field['element_name'];
+                _esigno_addQuickFormElement($form, $elementName, $fieldId, $required);
+                if ($form->getAction() == CRM_Core_Action::VIEW) {
+                    $form->getElement($elementName)->freeze();
+                }
+            }
+        }
+
+    }
+
     if ($formName == 'CRM_Custom_Form_Field') {
-        $dataToHTML = $form->get_template_vars('dataToHTML');
-    CRM_Core_Error::debug_var('dataToHTML', $dataToHTML);
-        $dataToHTML['File'][] = 'eSignature';
-        $dataToHTML['Memo'][] = 'eSignature';
-//    $template = CRM_Core_Smarty::singleton();
-//    $template->assign_by_ref( 'dataToHTML', $dataToHTML);
-        $form->assign('dataToHTML', $dataToHTML);
+        _esigno_add_esignature_option($form);
     }
 //    CRM_Core_Region::instance('page-body')->add(array(
 //        'template' => 'CRM/Esignaturecustomfield/Page/ElSignature.tpl',
 //  ));
+}
+
+/**
+ * @param $form Smarty QuickForm
+ * Function adds option
+ */
+function _esigno_add_esignature_option(&$form)
+{
+    $dataToHTML = $form->get_template_vars('dataToHTML');
+    CRM_Core_Error::debug_var('dataToHTML', $dataToHTML);
+    $dataToHTML['File'][] = 'eSignature';
+    $dataToHTML['Memo'][] = 'eSignature';
+//    $template = CRM_Core_Smarty::singleton();
+//    $template->assign_by_ref( 'dataToHTML', $dataToHTML);
+    $form->assign('dataToHTML', $dataToHTML);
+}
+
+
+/**
+ * Add a custom field to an existing form.
+ *
+ * @param CRM_Core_Form $qf
+ *   Form object (reference).
+ * @param string $elementName
+ *   Name of the custom field.
+ * @param int $fieldId
+ * @param bool $useRequired
+ *   True if required else false.
+ * @param bool $search
+ *   True if used for search else false.
+ * @param string $label
+ *   Label for custom field.
+ * @return \HTML_QuickForm_Element|null
+ * @throws \CiviCRM_API3_Exception
+ */
+function _esigno_addQuickFormElement(
+    $qf, $elementName, $fieldId, $useRequired = TRUE, $search = FALSE, $label = NULL
+)
+{
+    $field = CRM_Core_BAO_CustomField::getFieldObject($fieldId);
+    $widget = $field->html_type;
+    $element = NULL;
+    $customFieldAttributes = [];
+
+    if (!isset($label)) {
+        $label = $field->label;
+    }
+
+    // DAO stores attributes as a string, but it's hard to manipulate and
+    // CRM_Core_Form::add() wants them as an array.
+    $fieldAttributes = CRM_Core_BAO_CustomField::attributesFromString($field->attributes);
+
+    // Custom field HTML should indicate group+field name
+    $groupName = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $field->custom_group_id);
+    $fieldAttributes['data-crm-custom'] = $groupName . ':' . $field->name;
+    $fieldAttributes['class'] = "eSignature" . $fieldId;
+    // at some point in time we might want to split the below into small functions
+
+    switch ($widget) {
+        case 'eSignature':
+            $element = $qf->add('text', $elementName, $label,
+                $fieldAttributes,
+                $useRequired && !$search
+            );
+            CRM_Core_Region::instance('page-body')->add(array(
+                'template' => 'CRM/Esignaturecustomfield/Page/ElSignature.tpl',
+            ));
+            break;
+    }
+
+    if ($field->is_view && !$search) {
+        $qf->freeze($elementName);
+    }
+
+    return $element;
 }
 
 // --- Functions below this ship commented out. Uncomment as required. ---

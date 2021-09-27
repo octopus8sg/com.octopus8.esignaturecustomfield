@@ -460,7 +460,7 @@ CRM.$(function ($) {
 
 CRM.$(function ($) {
     $(document).ready(function ($) {
-        $('[id^=sign]').each(function (index) {
+        $('[class^=eSignature]').each(function (index) {
             var sign = jQuery(this).SignaturePad({
                 allowToSign: true,
                 img64: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
