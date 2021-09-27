@@ -184,31 +184,29 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
 
         CRM_Core_Error::debug_var('form', $form);
 //        echo 'IIII!';
-        CRM_Core_Region::instance('page-body')->add(array(
-            'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
-        ));
+        $debud_added = false;
         $groupTree = $form->get_template_vars('groupTree');
         CRM_Core_Error::debug_var('groupTree', $groupTree);
 
         foreach ($groupTree as $id => $group) {
             foreach ($group['fields'] as $field) {
                 $required = $field['is_required'] ?? NULL;
-                //fix for CRM-1620
-                if ($field['data_type'] == 'File') {
-                    if (!empty($field['element_value']['data'])) {
-                        $required = 0;
+                if ($field['html_type'] == 'eSignature') {
+                    $fieldId = $field['id'];
+                    $elementName = $field['element_name'];
+                    _esigno_addQuickFormElement($form, $elementName, $fieldId, $required);
+                    if ($form->getAction() == CRM_Core_Action::VIEW) {
+                        $form->getElement($elementName)->freeze();
                     }
-                }
-
-                $fieldId = $field['id'];
-                $elementName = $field['element_name'];
-                _esigno_addQuickFormElement($form, $elementName, $fieldId, $required);
-                if ($form->getAction() == CRM_Core_Action::VIEW) {
-                    $form->getElement($elementName)->freeze();
+                    if($debud_added == false){
+                        CRM_Core_Region::instance('page-body')->add(array(
+                            'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
+                        ));
+                        $debud_added = true;
+                    }
                 }
             }
         }
-
     }
 
     if ($formName == 'CRM_Custom_Form_Field') {
