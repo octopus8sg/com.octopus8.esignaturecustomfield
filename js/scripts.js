@@ -412,7 +412,7 @@ CRM.$(function ($) {
                 return this.each(function () {
 
                     var control = $(this);
-                    control.hide();
+                    // control.hide();
 
                     //get the control parent
                     var wrapper = control.parent();

@@ -178,27 +178,25 @@ function esignaturecustomfield_civicrm_themes(&$themes)
  */
 function esignaturecustomfield_civicrm_buildForm($formName, &$form)
 {
-    CRM_Core_Error::debug_var('formName', $formName);
+//    CRM_Core_Error::debug_var('formName', $formName);
 
     if ($formName == 'CRM_Custom_Form_Preview' || $formName == 'CRM_Custom_Form_CustomDataByType') {
 
-        CRM_Core_Error::debug_var('form', $form);
-//        echo 'IIII!';
+//        CRM_Core_Error::debug_var('form', $form);
         $debud_added = false;
         $groupTree = $form->get_template_vars('groupTree');
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-
         foreach ($groupTree as $id => $group) {
             foreach ($group['fields'] as $field) {
                 $required = $field['is_required'] ?? NULL;
                 if ($field['html_type'] == 'eSignature') {
                     $fieldId = $field['id'];
                     $elementName = $field['element_name'];
+                    $signatures[] = $elementName;
                     _esigno_addQuickFormElement($form, $elementName, $fieldId, $required);
                     if ($form->getAction() == CRM_Core_Action::VIEW) {
                         $form->getElement($elementName)->freeze();
                     }
-                    if($debud_added == false){
+                    if ($debud_added == false) {
                         CRM_Core_Region::instance('page-body')->add(array(
                             'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
                         ));
@@ -212,9 +210,7 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
     if ($formName == 'CRM_Custom_Form_Field') {
         _esigno_add_esignature_option($form);
     }
-//    CRM_Core_Region::instance('page-body')->add(array(
-//        'template' => 'CRM/Esignaturecustomfield/Page/ElSignature.tpl',
-//  ));
+
 }
 
 /**
@@ -328,4 +324,42 @@ function esignaturecustomfield_civicrm_navigationMenu(&$menu)
         'separator' => 0,
     ));
     _esignaturecustomfield_civix_navigationMenu($menu);
+}
+
+function esignaturecustomfield_civicrm_postProcess($formName, $form)
+{
+
+//    $evalues = $form->exportValues();
+    CRM_Core_Error::debug_var('form', $form);
+    $aid = CRM_Utils_Request::retrieveValue('id', 'Positive', 0);
+    $gevalues = $form->getSubmitValues();
+    $groupTree = $form->get_template_vars('groupTree');
+    foreach ($groupTree as $id => $group) {
+        foreach ($group['fields'] as $field) {
+            if ($field['html_type'] == 'eSignature') {
+                if ($field['data_type'] != 'File') {
+                    $fieldId = $field['id'];
+                    $elementName = $field['element_name'];
+                    $elementValue = $gevalues[$elementName];
+                    CRM_Core_Error::debug_var('element', $elementName . ':' . $elementValue);
+                    if (isset($elementValue)) {
+                        $result = civicrm_api3('CustomValue', 'create', [
+                            'entity_id' => $aid,
+                            'custom_' . $fieldId => $elementValue,
+                        ]);
+                        CRM_Core_Error::debug_var('result', $result);
+                    }
+                }
+            }
+        }
+    }
+
+
+    //    $svalues = $form->_submitValues;
+//    CRM_Core_Error::debug_var('form', $form);
+//    $contactid = $form->getVar('_id');
+//    CRM_Core_Error::debug_var('evalues', $evalues);
+//    CRM_Core_Error::debug_var('gevalues', $gevalues);
+//    CRM_Core_Error::debug_var('svalues', $svalues);
+
 }
