@@ -178,7 +178,7 @@ function esignaturecustomfield_civicrm_themes(&$themes)
  */
 function esignaturecustomfield_civicrm_buildForm($formName, &$form)
 {
-//    CRM_Core_Error::debug_var('formName', $formName);
+    CRM_Core_Error::debug_var('formName', $formName);
 
     if ($formName == 'CRM_Custom_Form_Preview' || $formName == 'CRM_Custom_Form_CustomDataByType') {
 
@@ -196,14 +196,53 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
                     if ($form->getAction() == CRM_Core_Action::VIEW) {
                         $form->getElement($elementName)->freeze();
                     }
-                    if ($debud_added == false) {
-                        CRM_Core_Region::instance('page-body')->add(array(
-                            'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
-                        ));
-                        $debud_added = true;
+//                    if ($debud_added == false) {
+//                        CRM_Core_Region::instance('page-body')->add(array(
+//                            'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
+//                        ));
+//                        $debud_added = true;
+//                    }
+                }
+            }
+        }
+    }
+
+    if ($formName == 'CRM_Activity_Form_Activity') {
+        $debud_added = false;
+        $groupTrees = $form->get_template_vars('viewCustomData');
+        }
+        CRM_Core_Error::debug_var('groupTrees1', $groupTrees);
+        foreach ($groupTrees as $gid => $groupTree) {
+            CRM_Core_Error::debug_var('groupTree', strval($gid) . '=>' . $groupTree);
+            foreach ($groupTree as $id => $group) {
+                CRM_Core_Error::debug_var('group', strval($id) . '=>' . $group);
+                foreach ($group['fields'] as $fid => $field) {
+                    CRM_Core_Error::debug_var('field', strval($fid) . '=>' . $field);
+                    if ($field['field_type'] == 'eSignature') {
+                        $field_value = $field['field_value'];
+                        $pos = strpos($field_value, 'image');
+                        // The !== operator can also be used.  Using != would not work as expected
+                        // because the position of 'a' is 0. The statement (0 != false) evaluates
+                        // to false.
+                        if ($pos !== false) {
+                            $field['field_value'] = "<img src='$field_value' height='100px'>";
+                            $groupTrees[$gid][$id]['fields'][$fid] = $field;
+                            if ($debud_added == false) {
+//                            CRM_Core_Region::instance('page-body')->add(array(
+//                                'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
+//                            ));
+                                $debud_added = true;
+                        }
                     }
                 }
             }
+        }
+        if($debud_added == true){
+            CRM_Core_Error::debug_var('groupTrees2', $groupTrees);
+            $form->assign('viewCustomData', $groupTrees);
+//            CRM_Core_Region::instance('page-body')->add(array(
+//                'template' => 'CRM/Esignaturecustomfield/Page/debug.tpl',
+//            ));
         }
     }
 
@@ -330,7 +369,7 @@ function esignaturecustomfield_civicrm_postProcess($formName, $form)
 {
 
 //    $evalues = $form->exportValues();
-    CRM_Core_Error::debug_var('form', $form);
+//    CRM_Core_Error::debug_var('form', $form);
     $aid = CRM_Utils_Request::retrieveValue('id', 'Positive', 0);
     $gevalues = $form->getSubmitValues();
     $groupTree = $form->get_template_vars('groupTree');
@@ -341,13 +380,13 @@ function esignaturecustomfield_civicrm_postProcess($formName, $form)
                     $fieldId = $field['id'];
                     $elementName = $field['element_name'];
                     $elementValue = $gevalues[$elementName];
-                    CRM_Core_Error::debug_var('element', $elementName . ':' . $elementValue);
+//                    CRM_Core_Error::debug_var('element', $elementName . ':' . $elementValue);
                     if (isset($elementValue)) {
                         $result = civicrm_api3('CustomValue', 'create', [
                             'entity_id' => $aid,
                             'custom_' . $fieldId => $elementValue,
                         ]);
-                        CRM_Core_Error::debug_var('result', $result);
+//                        CRM_Core_Error::debug_var('result', $result);
                     }
                 }
             }

@@ -21,16 +21,12 @@
 {*    </div>*}
 {*</div>*}
 {if ($firsttime eq "true")}
-    </h1>Not the First Time</h1>
 {else}
-    </h1>The First Time</h1>
+    {crmScript url="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"}
+    {crmScript url="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"}
+    {crmScript ext=com.octopus8.esignaturecustomfield file=js/scripts-bundled.js}
     {assign var="firsttime" value="true"}
 {/if}
-{crmScript url="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"}
-{crmScript url="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"}
-{crmScript ext=com.octopus8.esignaturecustomfield file=js/scripts-bundled.js}
-
-
 {literal}
     <script>
 

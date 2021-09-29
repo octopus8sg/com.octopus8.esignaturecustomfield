@@ -2,14 +2,14 @@
 
 ![Screenshot](/images/screenshot.png)
 
-(*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
+(*This extentention gives possibility to attach multiple eSignatures to various elements in CiviCRM*)
 
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
 
 ## Requirements
 
 * PHP v7.2+
-* CiviCRM (*FIXME: Version number*)
+* CiviCRM (*Version number 5.9*)
 
 ## Installation (Web UI)
 
@@ -37,9 +37,10 @@ cv en esignaturecustomfield
 
 ## Getting Started
 
-(* FIXME: Where would a new user navigate to get started? What changes would they see? *)
+(*You can choose Electronis Signature HTML option for Memo Custom Data Field*)
 
 ## Known Issues
 
-(* FIXME *)
+(*ToDo Export of the Electronic Signature*)
+
 # esignaturecustomfield
