@@ -346,23 +346,23 @@ function _esigno_addQuickFormElement(
 function esignaturecustomfield_civicrm_navigationMenu(&$menu)
 {
     //add new page to menu
-    _esignaturecustomfield_civix_insert_navigation_menu($menu, '', array(
-        'label' => E::ts('El Signature'),
-        'name' => 'el_signature',
-        'url' => 'civicrm/elsignature',
-        'permission' => 'access CiviCRM',
-        'operator' => 'OR',
-        'separator' => 0,
-    ));
-    _esignaturecustomfield_civix_insert_navigation_menu($menu, 'el_signature', array(
-        'label' => E::ts('Check El Signature'),
-        'name' => 'check_el_signature',
-        'url' => 'civicrm/elsignature',
-        'permission' => 'access CiviCRM',
-        'operator' => 'OR',
-        'separator' => 0,
-    ));
-    _esignaturecustomfield_civix_navigationMenu($menu);
+//    _esignaturecustomfield_civix_insert_navigation_menu($menu, '', array(
+//        'label' => E::ts('El Signature'),
+//        'name' => 'el_signature',
+//        'url' => 'civicrm/elsignature',
+//        'permission' => 'access CiviCRM',
+//        'operator' => 'OR',
+//        'separator' => 0,
+//    ));
+//    _esignaturecustomfield_civix_insert_navigation_menu($menu, 'el_signature', array(
+//        'label' => E::ts('Check El Signature'),
+//        'name' => 'check_el_signature',
+//        'url' => 'civicrm/elsignature',
+//        'permission' => 'access CiviCRM',
+//        'operator' => 'OR',
+//        'separator' => 0,
+//    ));
+//    _esignaturecustomfield_civix_navigationMenu($menu);
 }
 
 function esignaturecustomfield_civicrm_postProcess($formName, $form)
