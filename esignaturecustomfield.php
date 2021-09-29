@@ -275,7 +275,7 @@ function _esigno_addQuickFormElement(
                 $fieldAttributes,
                 $useRequired && !$search
             );
-            CRM_Core_Region::instance('page-body')->add(array(
+            CRM_Core_Region::instance('form-body')->add(array(
                 'template' => 'CRM/Esignaturecustomfield/Page/ElSignature.tpl',
             ));
             break;
