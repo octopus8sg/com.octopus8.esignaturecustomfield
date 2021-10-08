@@ -436,7 +436,7 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
 {
 //lets check a form before and while building Form
 
-    CRM_Core_Error::debug_var('formName_buildForm', $formName);
+//    CRM_Core_Error::debug_var('formName_buildForm', $formName);
 //    CRM_Core_Error::debug_var('form_buildForm', $form);
 
     $debud_added = false;
@@ -444,7 +444,7 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
 //        _esignature_debug($form);
 //        CRM_Core_Error::debug_var('form_buildForm', $form);
         $groupTrees = $form->get_template_vars('groupTree');
-        CRM_Core_Error::debug_var('groupTrees', $groupTrees);
+//        CRM_Core_Error::debug_var('groupTrees', $groupTrees);
 //        foreach ($groupTrees as $groupTree) {
         if ($groupTrees) {
             foreach ($groupTrees as $id => $group) {
@@ -469,7 +469,7 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
             }
         }
         $agroupTrees = $form->get_template_vars('address_groupTree');
-        CRM_Core_Error::debug_var('agroupTrees', $agroupTrees);
+//        CRM_Core_Error::debug_var('agroupTrees', $agroupTrees);
         if ($agroupTrees) {
             foreach ($agroupTrees as $aid => $agroupTree) {
                 foreach ($agroupTree as $id => $group) {
@@ -511,7 +511,7 @@ function esignaturecustomfield_civicrm_buildForm($formName, &$form)
                 if ($field['html_type'] == 'eSignature') {
                     $required = $field['is_required'] ?? NULL;
                     $fieldId = intval(substr($name, 7));
-                    CRM_Core_Error::debug_var('field_buildForm', $field);
+/*                    CRM_Core_Error::debug_var('field_buildForm', $field);*/
 
                     $elementName = $name;
 //                        $signatures[] = $elementName;
@@ -644,7 +644,7 @@ function _esignaturecustomfield_addQuickFormSignatureElement(
 {
     $field = CRM_Core_BAO_CustomField::getFieldObject($fieldId);
     $element = NULL;
-    CRM_Core_Error::debug_var('field_before_add', $field);
+//    CRM_Core_Error::debug_var('field_before_add', $field);
     if (!isset($label)) {
         $label = $field->label;
     }
@@ -670,7 +670,7 @@ function _esignaturecustomfield_addQuickFormSignatureElement(
     if ($field->is_view && !$search) {
         $qf->freeze($elementName);
     }
-    CRM_Core_Error::debug_var('element_after_add', $element);
+//    CRM_Core_Error::debug_var('element_after_add', $element);
 
     return $element;
 
