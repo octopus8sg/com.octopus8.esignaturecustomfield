@@ -382,6 +382,7 @@ CRM.$(function ($) {
                     btn.attr('type', 'button');
                     btn.css('border', '1px solid #c8c8c8');
                     btn.css('background-color', 'white');
+                    btn.css('color', '#4c4c4c');
                     btn.css('padding', '10px');
                     btn.css('display', 'block');
                     btn.css('margin-top', '15px');
