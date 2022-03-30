@@ -588,8 +588,8 @@ function esignaturecustomfield_civicrm_navigationMenu(&$menu)
 function esignaturecustomfield_civicrm_postProcess($formName, $form)
 {
     esignature_setlongtextfield();
-    CRM_Core_Error::debug_var('formName_postPro', $formName);
-    CRM_Core_Error::debug_var('form_action', $form->_action);
+//    CRM_Core_Error::debug_var('formName_postPro', $formName);
+//    CRM_Core_Error::debug_var('form_action', $form->_action);
 
     $evalues = CRM_Utils_Request::exportValues();
     $gevalues = $form->getSubmitValues();
