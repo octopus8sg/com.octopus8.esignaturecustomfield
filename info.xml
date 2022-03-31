@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <extension key="com.octopus8.esignaturecustomfield" type="module">
   <file>esignaturecustomfield</file>
-  <name>eSignature Custom Fields</name>
-  <description>eSignature Custom Fields</description>
+  <name>eSignature Custom Field</name>
+  <description>eSignature Custom Field</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Dr.Khindol Madraimov</author>
-    <email>khindol.madraimov@gmail.com</email>
+    <email>support@octopus8.com</email>
   </maintainer>
   <urls>
-    <url desc="Main Extension Page">http://octopus8.com</url>
-    <url desc="Documentation">http://octopus8.com</url>
-    <url desc="Support">http://octopus8.com</url>
+    <url desc="Main Extension Page">http://www.octopus8.com</url>
+    <url desc="Documentation">http://www.octopus8.com</url>
+    <url desc="Support">http://www.octopus8.com</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate>2021-09-25</releaseDate>
-  <version>0.0.1</version>
-  <develStage>alpha</develStage>
+  <releaseDate>2022-03-31</releaseDate>
+  <version>0.1.0</version>
+  <develStage>Beta</develStage>
   <compatibility>
-    <ver>5.9</ver>
+    <ver>5.47.2</ver>
   </compatibility>
-  <comments>This is a developing module</comments>
+  <comments>This module is under development.</comments>
   <classloader>
     <psr4 prefix="Civi\" path="Civi"/>
   </classloader>
