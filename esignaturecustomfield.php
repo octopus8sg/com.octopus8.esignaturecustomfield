@@ -246,19 +246,24 @@ function esignaturecustomfield_add_grouptree(&$form)
         !empty($form->_multiRecordDisplay) && $form->_multiRecordDisplay == 'single') {
         $singleRecord = 'new';
     }
-    $groupTree = CRM_Core_BAO_CustomGroup::getTree($form->_type,
-        NULL,
-        $entityId,
-        $groupID,
-        $subType,
-        $form->_subName,
-        TRUE,
-        $onlySubtype,
-        FALSE,
-        TRUE,
-        $singleRecord
+    $groupTree = CRM_Core_BAO_CustomGroup::getTree(
+        $form->_type,   //     $entityType,
+        NULL,           //    $toReturn = [],
+        $entityId,      //    $entityID = NULL,
+        $groupID,       //    $groupID = NULL,
+        $subType,       //    $subTypes = [],
+        $form->_subName,//    $subName = NULL,
+        TRUE,           //    $fromCache = TRUE,
+        $onlySubtype,   //    $onlySubType = NULL,
+        FALSE,  //    $returnAll = FALSE,
+        CRM_Core_Permission::EDIT,   //    $checkPermission = CRM_Core_Permission::EDIT,
+        $singleRecord   //    $singleRecord = NULL,
+    //    $showPublicOnly = FALSE
     );
-    $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree($groupTree, 1, $form);
+    $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree(
+        $groupTree, //$groupTree,
+        1,          //$groupCount = 1,
+        $form);     //&$form = NULL
     $form->assign('eSignature_groupTree', $groupTree);
 }
 
@@ -585,7 +590,7 @@ function esignaturecustomfield_civicrm_navigationMenu(&$menu)
 //    _esignaturecustomfield_civix_navigationMenu($menu);
 }
 
-function esignaturecustomfield_civicrm_postProcess($formName, $form)
+function _esignaturecustomfield_civicrm_postProcess($formName, $form)
 {
     esignature_setlongtextfield();
 //    CRM_Core_Error::debug_var('formName_postPro', $formName);
