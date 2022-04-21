@@ -590,7 +590,7 @@ function esignaturecustomfield_civicrm_navigationMenu(&$menu)
 //    _esignaturecustomfield_civix_navigationMenu($menu);
 }
 
-function _esignaturecustomfield_civicrm_postProcess($formName, $form)
+function esignaturecustomfield_civicrm_postProcess($formName, $form)
 {
     esignature_setlongtextfield();
 //    CRM_Core_Error::debug_var('formName_postPro', $formName);
